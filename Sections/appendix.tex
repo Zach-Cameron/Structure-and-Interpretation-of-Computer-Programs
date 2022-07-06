@@ -16,7 +16,7 @@ LISP:
 \begin{itemize}
     \item "\textbf{LIS}t \textbf{P}rocessor"
     \item Developed for the IBM 704 computer by the Artificial Intelligence group at M.I.T. 
-    \item Designed to facilitate experiemtns with a proposed system called the \textit{Advice Tracker}:
+    \item Designed to facilitate experiments with a proposed system called the \textit{Advice Tracker}:
     \begin{itemize}
         \item A programming system for manipulating expressions representing formalized declarative and imperative sentences so that the Advice Tracker system could make deductions.
         \item Originally proposed in November 1958.
@@ -35,4 +35,20 @@ In this article:
 \end{enumerate}
 
 \subsubsection{Functions and Function Definitions}
+
+\begin{defn}[\idx{partial function}]
+    A function that is defined only on part of its domain.
+\end{defn}
+
+\begin{defn}[\idx{propositional expression}]
+    A \textit{propositional expression} is an expression whose possible values are $T$ (for truth) and $F$ (for falsity)
+\end{defn}
+
+\begin{defn}[\idx{predicate}]
+    A function whose range consists of the truth values $T$ and $F$.
+\end{defn}
+
+\begin{defn}[\idx{conditional expression}]
+    A device for expressing the dependence of quantities on propositional quantities, denoted: \[(p_{1} \rightarrow e_{1}, \cdots, p_{n} \rightarrow e_{n})\] where the $p$'s are prositional expressions and the $e$'s are expression of any kind, read ``If $p_{1}$ then $e_{1}$, otherwise if $p_{2}$ then $e_{2}$, ... otherwise if $p_{n}$ then $e_{n}$'' or ``$p_{1}$ yields $e_{1}$, ..., $p_{n}$ yields $e_{n}$.''
+\end{defn}
 
