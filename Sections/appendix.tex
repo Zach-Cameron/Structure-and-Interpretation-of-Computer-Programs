@@ -50,5 +50,42 @@ In this article:
 
 \begin{defn}[\idx{conditional expression}]
     A device for expressing the dependence of quantities on propositional quantities, denoted: \[(p_{1} \rightarrow e_{1}, \cdots, p_{n} \rightarrow e_{n})\] where the $p$'s are prositional expressions and the $e$'s are expression of any kind, read ``If $p_{1}$ then $e_{1}$, otherwise if $p_{2}$ then $e_{2}$, ... otherwise if $p_{n}$ then $e_{n}$'' or ``$p_{1}$ yields $e_{1}$, ..., $p_{n}$ yields $e_{n}$.''
+
+    \textbf{How to determine the value of an arbitrary conditional statement $(p_{1} \rightarrow e_{1}, \cdots, p_{n} \rightarrow e_{n})$}:
+    \begin{itemize}
+        \item Let $i=1$.
+        \item If the value of $p_{i}$ is undefined, then the value of the conditional statement is undefined.
+        \item If the value of $p_{i}$ is $T$, then the value of the conditional statement is the value of the expression $e_{i}$.
+        \item If the value of $p_{i}$ is $F$, then increment $i$ and evaluate $p_{i}$.
+    \end{itemize}
 \end{defn}
+
+\begin{exmp}
+    \hfill
+    \begin{itemize}
+        \item $(1 < 2 \rightarrow 4,\ 1 > 2 \rightarrow 3) = 4$
+        
+        Starting from the left with the statement $1 < 2 \rightarrow 4$, the propositional expression $1 < 2$ is true, therefore the value of the conditional expression is $4$.
+
+        \item $(2 < 1 \rightarrow 4,\ 2 > 1 \rightarrow 3,\ 2 > 1 \rightarrow 2) = 3$
+        
+        Starting from the left with the statement $2 < 1 \rightarrow 4$, the propositional expression $2 < 1$ is false. Moving on to the next statement $2 > 1 \rightarrow 3$, the propositional expression $2 > 1$ is true, therefore the value of the conditional expression is $3$.
+
+        \item $(2 < 1 \rightarrow 4,\ T \rightarrow 3) = 3$
+        
+        The propositional expression $2 < 1$ is false, so move on. The propositional expression $T$ is true, therefore the value of the conditional expression is $3$. 
+
+        \item $(2 < 1 \rightarrow \frac{0}{0},\ T \rightarrow 3) = 3$
+        
+        The propositional expression $2 < 1$ is false, so move on. The propositional expression $T$ is true, therefore the value of the conditional expression is $3$.
+
+        \item $(2 < 1 \rightarrow 3,\ T \rightarrow \frac{0}{0})$ is undefined.
+        
+        The propositional expression $2 < 1$ is false, so move on. The propositional expression $T$ is true, therefore the value of the conditional expression is the value of the expression $\frac{0}{0}$ which is undefined.
+
+        \item $(2 < 1 \rightarrow 3,\ 4 < 1 \rightarrow 4)$ is undefined.
+        
+        The propositional expression $2 < 1$ is false, so move on. The propositional expression $4 < 1$ is false, so move on. There's nothing else to move on to, so the value of the conditional expression defaults to being undefined.
+    \end{itemize}
+\end{exmp}
 
