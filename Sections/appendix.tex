@@ -54,8 +54,8 @@ In this article:
     \textbf{How to determine the value of an arbitrary conditional statement $(p_{1} \rightarrow e_{1}, \cdots, p_{n} \rightarrow e_{n})$}:
     \begin{itemize}
         \item Let $i=1$.
-        \item If the value of $p_{i}$ is undefined, then the value of the conditional statement is undefined.
-        \item If the value of $p_{i}$ is $T$, then the value of the conditional statement is the value of the expression $e_{i}$.
+        \item If the value of $p_{i}$ is undefined, then the value of the conditional expression is undefined.
+        \item If the value of $p_{i}$ is $T$, then the value of the conditional expression is the value of the expression $e_{i}$.
         \item If the value of $p_{i}$ is $F$, then increment $i$ and evaluate $p_{i}$.
     \end{itemize}
 \end{defn}
@@ -89,3 +89,30 @@ In this article:
     \end{itemize}
 \end{exmp}
 
+\begin{exmp}
+    Applications:
+    \begin{itemize}
+        \item $\left|x\right| = (x < 0 \rightarrow -x,\ T \rightarrow x)$
+        \item $\delta_{ij} = (i=j \rightarrow 1, T \rightarrow 0)$
+        \item $sgn(x) = (x < 0 \rightarrow -1,\ x = 0 \rightarrow 0,\ T \rightarrow 1)$
+    \end{itemize}
+\end{exmp}
+
+\begin{exmp}
+    Recursive applications:
+    \begin{itemize}
+        \item $n! = (n = 0 \rightarrow 1,\ T \rightarrow n \cdot (n-1)!)$
+        \item $\gcd(m,n) = (m > n \rightarrow \gcd(n,m),\ rem(n,m) = 0 \rightarrow m,\ T \rightarrow \gcd(rem(n,m),m))$
+        \item $\text{sqrt}(a, x, \epsilon) = (\left|x^{2} - a\right| < \epsilon \rightarrow x,\ T \rightarrow \text{sqrt}(a, \frac{1}{2}(x+\frac{a}{x}), \epsilon))$ 
+    \end{itemize}
+\end{exmp}
+
+\begin{exmp}
+    Propositional connectives defined by conditional expressions:
+    \begin{itemize}
+        \item $p \land q = (p \rightarrow q,\ T \rightarrow F)$
+        \item $p \lor q = (p \rightarrow T,\ T \rightarrow q)$
+        \item $\neg p = (p \rightarrow F,\ T \rightarrow T)$
+        \item $p \supset q = (p \rightarrow q,\ T \rightarrow T)$
+    \end{itemize}
+\end{exmp}
