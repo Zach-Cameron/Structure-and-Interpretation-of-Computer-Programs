@@ -164,3 +164,33 @@ In this article:
 
 \subsubsection{Recursive Functions of Symbolic Expressions}
 
+Objectives:
+\begin{enumerate}
+    \item Define a class of symbolic expressions in terms of ordered pairs and lists.
+    \item Define five elementary functions and predicates, and build from them by composition, conditional expressions, and recursive definitions an extensive class of functions of which we shall give a number of examples.
+    \item Show how these functions themselves can be expressed as symbolic expressions.
+    \item Define a universal function \texttt{apply} that allows us to compute from the expression for a given function its value for given arguments.
+    \item Define some functions with functions as arguments and give some useful examples.
+\end{enumerate}
+
+\begin{defn}[\idx{S-expression}]
+    \begin{enumerate}
+        \item Atomic symbols are S-expressions.
+        \item If $e_{1}$ and $e_{2}$ are S-expressions, then so is $(e_{1} \cdot e_{2})$.
+    \end{enumerate}
+    
+    where \textit{atomic symbols} refers to the symbols \texttt{.}, \texttt{(}, and \texttt{)} along with single digits, upper/lower case letters, and possibly other symbols. $S$ stands for `symbolic'.
+\end{defn}
+
+\begin{exmp}
+    \hfill
+    \begin{itemize}
+        \item $AB$
+        \item $(A \cdot B)$
+        \item $((AB \cdot C) \cdot D)$
+    \end{itemize}
+\end{exmp}
+
+\begin{rmrk}
+    An arbitrary list \[(m_{1},m_{2},\ldots,m_{n})\] can be represented by the S-expression \[(m_{1} \cdot (m_{2} \cdot (\cdots (m_{n} \cdot NIL) \cdots )))\]
+\end{rmrk}
