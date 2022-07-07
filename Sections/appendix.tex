@@ -116,3 +116,14 @@ In this article:
         \item $p \supset q = (p \rightarrow q,\ T \rightarrow T)$
     \end{itemize}
 \end{exmp}
+
+\begin{defn}[\idx{form}]
+    The expression $y^{2}+x$ is an example of a form.
+\end{defn}
+
+\begin{defn}[\idx{function}]
+    A function substitutes arguments into a form to evaluate a result. It's necessarily to know which arguments map to which variables of the form. Something like $y^{2}+x(3,4)$ is not a function because it's not clear how $(3,4)$ should map to $x$ and $y$. If we make explicit the positions of the variables in the ordered tuple of arguments, then the mapping is clear. So, $\lambda((x,y),y^{2}+x)$ is a function, where e.g. $\lambda((x,y),y^{2}+x)(3,4)$ evaluates to $4^{2}+3 = 19$.
+
+    A function of $n$ arguments is denoted \[\lambda((x_{1},\ldots,x_{n}),\mathcal{E})\] where $\mathcal{E}$ is a form of $n$ variables $x_{1},\ldots,x_{n}$.
+\end{defn}
+
