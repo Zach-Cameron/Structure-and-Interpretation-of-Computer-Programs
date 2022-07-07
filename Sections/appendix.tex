@@ -26,8 +26,8 @@ LISP:
 
 In this article:
 \begin{enumerate}
-    \item Describle a formalism for defining functions recursively.
-    \item Describe S-expressions and S-functions, give examples, and describe the universal S-function \texttt{apply} which plays the theoretical role of a universal Turing machine and the practical role of an intepreter.
+    \item Describe a formalism for defining functions recursively.
+    \item Describe S-expressions and S-functions, give examples, and describe the universal S-function \texttt{apply} which plays the theoretical role of a universal Turing machine and the practical role of an interpreter.
     \item Describe the representation of S-expressions in the memory of the IBM 704 by list structures ... and the representation of S-functions by program.
     \item Mention the main features of the LISP programming system for the IMB 704.
     \item Another way of describing computations with symbolic expressions.
@@ -41,7 +41,7 @@ In this article:
 \end{defn}
 
 \begin{defn}[\idx{propositional expression}]
-    A \textit{propositional expression} is an expression whose possible values are $T$ (for truth) and $F$ (for falsity)
+    A \textbi{propositional expression} is an expression whose possible values are $T$ (for truth) and $F$ (for falsity)
 \end{defn}
 
 \begin{defn}[\idx{predicate}]
@@ -49,7 +49,7 @@ In this article:
 \end{defn}
 
 \begin{defn}[\idx{conditional expression}]
-    A device for expressing the dependence of quantities on propositional quantities, denoted: \[(p_{1} \rightarrow e_{1}, \cdots, p_{n} \rightarrow e_{n})\] where the $p$'s are prositional expressions and the $e$'s are expression of any kind, read ``If $p_{1}$ then $e_{1}$, otherwise if $p_{2}$ then $e_{2}$, ... otherwise if $p_{n}$ then $e_{n}$'' or ``$p_{1}$ yields $e_{1}$, ..., $p_{n}$ yields $e_{n}$.''
+    A device for expressing the dependence of quantities on propositional quantities, denoted: \[(p_{1} \rightarrow e_{1}, \cdots, p_{n} \rightarrow e_{n})\] where the $p$'s are propositional expressions and the $e$'s are expression of any kind, read ``If $p_{1}$ then $e_{1}$, otherwise if $p_{2}$ then $e_{2}$, ... otherwise if $p_{n}$ then $e_{n}$'' or ``$p_{1}$ yields $e_{1}$, ..., $p_{n}$ yields $e_{n}$.''
 
     \textbf{How to determine the value of an arbitrary conditional statement $(p_{1} \rightarrow e_{1}, \cdots, p_{n} \rightarrow e_{n})$}:
     \begin{itemize}
@@ -122,8 +122,45 @@ In this article:
 \end{defn}
 
 \begin{defn}[\idx{function}]
-    A function substitutes arguments into a form to evaluate a result. It's necessarily to know which arguments map to which variables of the form. Something like $y^{2}+x(3,4)$ is not a function because it's not clear how $(3,4)$ should map to $x$ and $y$. If we make explicit the positions of the variables in the ordered tuple of arguments, then the mapping is clear. So, $\lambda((x,y),y^{2}+x)$ is a function, where e.g. $\lambda((x,y),y^{2}+x)(3,4)$ evaluates to $4^{2}+3 = 19$.
+    A function substitutes arguments into a form to evaluate a result. It's necessarily to know which arguments map to which variables of the form. Something like $y^{2}+x(3,4)$ is not a function because it's not clear how $(3,4)$ should map to $x$ and $y$. If we make explicit the positions of the variables in the ordered tuple of arguments, then the mapping is clear. So, $\lambda((x,y),\ y^{2}+x)$ is a function, where e.g. $\lambda((x,y),\ y^{2}+x)(3,4)$ evaluates to $4^{2}+3 = 19$.
 
-    A function of $n$ arguments is denoted \[\lambda((x_{1},\ldots,x_{n}),\mathcal{E})\] where $\mathcal{E}$ is a form of $n$ variables $x_{1},\ldots,x_{n}$.
+    A function of $n$ arguments is denoted \[\lambda((x_{1},\ldots,x_{n}),\ \mathcal{E})\] where $\mathcal{E}$ is a form of $n$ variables $x_{1},\ldots,x_{n}$.
 \end{defn}
+
+\begin{defn}[\idx{list of variables}]
+    Given a function $\lambda((x_{1},\ldots,x_{n}),\ \mathcal{E})$, the ordered tuple $(x_{1},\ldots,x_{n})$ is called the \textbi{list of variables}.
+\end{defn}
+
+\begin{defn}[\idx{dummy variable}, \idx{bound variable}]
+    Given a function $\lambda((x_{1},\ldots,x_{n}),\ \mathcal{E})$, the variables in the list of variables are called \textbi{dummy variables} or \textbi{bound variables} .
+
+    The symbol used for any bound variable may be changed without changing the value of the expression, provided that we make the same change for each occurrence of the variable and do not make two variables the same that previously were different.
+\end{defn}
+
+\begin{exmp}
+    The functions $\lambda((x,y),\ y^{2}+x)$, $\lambda((u,v),\ v^{2}+u)$, and $\lambda((y,x),\ x^{2}+y)$ are equivalent.
+\end{exmp}
+
+\begin{defn}[\idx{free variable}]
+    Given a function $\lambda((x_{1},\ldots,x_{n}),\ \mathcal{E})$, a \textbi{free variable} is a variable which occurs in the expression $\mathcal{E}$ but does not occur in the list of variables. Such an expression may be regarded as defining a function with parameters.
+\end{defn}
+
+\begin{defn}[\idx{collision of bound variables}]
+    A difficulty which arises in combining functions described by $\lambda$-expressions, or by any other notation involving variables, because different bound variables may be represented by the same symbol.
+\end{defn}
+
+\begin{note}
+    The $\lambda$-notation is inadequate for naming functions defined recursively. For example, \[\text{sqrt}(a,x,\epsilon) = (\left|x^{2}-a\right| < \epsilon \rightarrow x,\ T \rightarrow \text{sqrt}(a,\frac{1}{2}(x+\frac{a}{x}),\epsilon))\] converts into $\lambda$-notation as \[\text{sqrt} = \lambda((a,x,\epsilon),\ (\left|x^{2}-a\right| < \epsilon \rightarrow x,\ T \rightarrow \text{sqrt}(a,\frac{1}{2}(x+\frac{a}{x}),\epsilon)))\] However, the right-hand side cannot serve as an expression for the function because there would be nothing to indicate that the reference to \texttt{sqrt} within the expression stood for the expression as a whole.
+\end{note}
+
+\begin{defn}[\idx{$\text{label}(a,\mathcal{E})$}]
+    $\text{label}(a,\mathcal{E})$ denotes the expression $\mathcal{E}$ provided that occurrences of $a$ within $\mathcal{E}$ are to be interpreted as referring to the expression as a whole.
+\end{defn}
+
+\begin{exmp}
+    The \texttt{sqrt} function can be written as
+    \[\text{label}(\text{sqrt},\ \lambda((a,x,\epsilon),\ (\left|x^{2}-a\right| < \epsilon \rightarrow x,\ T \rightarrow \text{sqrt}(a,\frac{1}{2}(x+\frac{a}{x}),\epsilon))))\]
+\end{exmp}
+
+\subsubsection{Recursive Functions of Symbolic Expressions}
 
