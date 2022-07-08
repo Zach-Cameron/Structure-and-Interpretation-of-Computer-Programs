@@ -179,7 +179,7 @@ Objectives:
         \item If $e_{1}$ and $e_{2}$ are S-expressions, then so is $(e_{1} \cdot e_{2})$.
     \end{enumerate}
     
-    where \textit{atomic symbols} refers to the symbols \texttt{.}, \texttt{(}, and \texttt{)} along with single digits, upper/lower case letters, and possibly other symbols. $S$ stands for `symbolic'.
+    where \textit{atomic symbols} refers to the symbols \texttt{.} \texttt{(} and \texttt{)} along with single digits, upper/lower case letters, and possibly other symbols. $S$ stands for `symbolic'.
 \end{defn}
 
 \begin{exmp}
@@ -192,5 +192,17 @@ Objectives:
 \end{exmp}
 
 \begin{rmrk}
-    An arbitrary list \[(m_{1},m_{2},\ldots,m_{n})\] can be represented by the S-expression \[(m_{1} \cdot (m_{2} \cdot (\cdots (m_{n} \cdot NIL) \cdots )))\]
+    An arbitrary list \[(m_{1},m_{2},\ldots,m_{n})\] can be represented by the S-expression \[(m_{1} \cdot (m_{2} \cdot (\cdots (m_{n} \cdot NIL) \cdots )))\] where $NIL$ is an atomic symbol used to terminate lists.
 \end{rmrk}
+
+\begin{nota}
+    \hfill
+    \begin{itemize}
+        \item $(m)$ stands for $(m \cdot NIL)$
+        \item $(m_{1},\cdots,m_{n})$ stands for $(m_{1} \cdot (\cdots (m_{n} \cdot NIL)\cdots))$
+        \item $(m_{1},\cdots,m_{n} \cdot x)$ stands for $(m_{1} \cdot (\cdots (m_{n} \cdot x)\cdots))$
+        \item $((AB,C),D)$ stands for $((AB \cdot (C \cdot NIL)) \cdot (D \cdot NIL))$
+        \item $((A,B),C,D \cdot E)$ stands for $((A \cdot (B \cdot NIL)) \cdot (C \cdot (D \cdot E)))$ 
+    \end{itemize}
+\end{nota}
+
