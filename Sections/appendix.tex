@@ -185,7 +185,7 @@ Objectives:
 \begin{exmp}
     \hfill
     \begin{itemize}
-        \item $AB$
+        \item $AB$ [Note: $AB$ is an atomic symbol. If it were a composition of atomic symbols $A$ and $B$, then it would be written as $(A \cdot B)$.]
         \item $(A \cdot B)$
         \item $((AB \cdot C) \cdot D)$
     \end{itemize}
@@ -206,3 +206,66 @@ Objectives:
     \end{itemize}
 \end{nota}
 
+\begin{defn}[\idx{function of S-expressions}, \idx{M-expression}]
+    Functions, written in conventional functional notation, taking S-expressions as argument. The expression for a function of S-expressions is called an \textbi{M-expression}.
+\end{defn}
+
+\begin{exmp}
+    \hfill
+    \begin{itemize}
+        \item $car[x]$
+        \item $car[cons[(A \cdot B);x]]$
+        \item Note the use of square brackets instead of parentheses and the semicolon instead of the comma.
+    \end{itemize}
+\end{exmp}
+
+
+\begin{defn}[\idx[atom[X]]]
+    atom[X] has the value of T or F according to whether X is an atomic symbol. For example:
+    \begin{itemize}
+        \item atom[X] = T
+        \item atom[(X $\cdot$ A)] = F
+    \end{itemize}
+\end{defn}
+
+\begin{defn}[\idx{eq[x;y]}]
+    Given atomic symbols x,y, eq[x;y] = T iff x and y are equivalent atomic symbols. For example:
+    \begin{itemize}
+        \item eq[X;X] = T
+        \item qe[X;A] = F
+        \item eq[X;(X $\cdot$ A)] is undefined since (X $\cdot$ A) is not an atomic symbol.
+    \end{itemize}
+\end{defn}
+
+\begin{defn}[\idx{car[X]}]
+    car[$(e_{1} \cdot e_{2})$] = $e_{1}$. car[X] is undefined if X is an atomic symbol. For example:
+    \begin{itemize}
+        \item car[(X $\cdot$ A)] = X
+        \item car[((X $\cdot A$) $\cdot$ Y) = (X $\cdot$ A)]
+    \end{itemize}
+\end{defn}
+
+\begin{defn}[\idx{cdr[X]}]
+    cdr[$(e_{1} \cdot e_{2})$] = $e_{2}$. cdr[X] is undefined if X is an atomic symbol. For example:
+    \begin{itemize}
+        \item cdr[(X $\cdot$ A)] = A
+        \item cdr[((X $\cdot$ A) $\cdot$ Y)] = Y
+    \end{itemize}
+\end{defn}
+
+\begin{defn}[\idx{cons[x;y]}]
+    cons[x;y] = (x $\cdot$ y). For example:
+    \begin{itemize}
+        \item cons[X;A] = (X $\cdot$ A)
+        \item cons[(X $\cdot$ A); Y] = ((X $\cdot$ A) $\cdot$ Y)
+    \end{itemize}
+\end{defn}
+
+\begin{rmrk}
+    \hfill
+    \begin{itemize}
+        \item car[cons[x;y]] = x
+        \item cdr[cons[x;y]] = y
+        \item cons[car[x];cdr[x]] = x, provided that x is not atomic
+    \end{itemize}
+\end{rmrk}
