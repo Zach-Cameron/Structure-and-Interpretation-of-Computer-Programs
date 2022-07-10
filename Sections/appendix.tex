@@ -267,5 +267,53 @@ Objectives:
         \item car[cons[x;y]] = x
         \item cdr[cons[x;y]] = y
         \item cons[car[x];cdr[x]] = x, provided that x is not atomic
+        \item cons[car[(X $\cdot$ A)]; cdr[(X $\cdot$ A)]] = cons[X;A] = (X $\cdot$ A)
     \end{itemize}
 \end{rmrk}
+
+\begin{defn}[\idx{ff[X]}]
+    ff[X] is equivalent to the first atomic symbol of the S-expression X. For example:
+    \begin{itemize}
+        \item ff[((A $\cdot B$) $\cdot$ C)] = A
+        \item ff[x] = [atom[x] $\rightarrow$ x; T $\rightarrow$ ff[car[X]]]
+    \end{itemize}
+\end{defn}
+
+\begin{defn}[\idx{subst[x;y;z]}]
+    subst[x;y;z] is equivalent to the S-expression resulting from substituting the S-expression x for all occurrences of the atomic symbol y in the S-expression z. For example:
+    \begin{itemize}
+        \item subst[x;y;z] = [atom[z] $\rightarrow$ [eq[z;y] $\rightarrow$ x; T $\rightarrow$ z]; T $\rightarrow$ cons[subst[x;y;car[z]]; subst[x;y;cdr[z]]]]
+        \item subst[(X $\cdot$ A); B; ((A $\cdot$ B) $\cdot$ C)] = ((A $\cdot$ (X $\cdot$ A)) $\cdot$ C)
+    \end{itemize}
+\end{defn}
+
+\begin{defn}[\idx{equal[x;y]}]
+    equal[x;y] = T iff x and y are equivalent S-expressions. For example:
+    \begin{itemize}
+        \item equal[x;y] = [atom[x] $\land$ atom[y] $\land$ eq[x;y]] $\lor$ [$\neg$atom[x] $\land$ $\neg$atom[y] $\land$ equal[car[x]; car[y]] $\land$ equal[cdr[x]; cdr[y]]]
+    \end{itemize}
+\end{defn}
+
+\begin{rmrk}
+    \hfill
+    \begin{itemize}
+        \item car[$(m_{1}, m_{2}, \ldots, m_{n})$] = car[$(m_{1} \cdot (m_{2} \cdot (\cdots (m_{n} \cdot NIL) \cdots )))$] = $m_{1}$
+        \item cdr[$(m_{1}, m_{2}, \ldots, m_{n})$] = cdr[$(m_{1} \cdot (m_{2} \cdot (\cdots (m_{n} \cdot NIL) \cdots )))$] = $(m_{2} \cdot (\cdots (m_{n} \cdot NIL) \cdots ))$ = $(m_{2}, \ldots, m_{n})$
+        \item cdr[$(m)$] = cdr[$(m,NIL)$] = $NIL$
+        \item cons[$m_{1}$; $(m_{2},\ldots,m_{n})$] = $(m_{1}, m_{2}, \ldots, m_{n})$
+        \item cons[$m$; $NIL$] = $(m, NIL)$ = $(m)$
+    \end{itemize}
+\end{rmrk}
+
+\begin{defn}[\idx{null[x]}]
+    null[x] = atom[x] $\land$ eq[x;$NIL$]
+\end{defn}
+
+\begin{defn}[\idx{cadr[x]}, \idx{caddr[x]}]
+    \begin{itemize}
+        \item cadr[x] = car[cdr[x]] - car (a) and cdr (d) makes c(ad)r
+        \item caddr[x] = car[cdr[cdr[x]]] - car (a) and two cdr's (dd) makes c(add)r
+        \item etc\dots 
+    \end{itemize}
+\end{defn}
+
