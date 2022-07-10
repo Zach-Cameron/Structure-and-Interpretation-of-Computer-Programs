@@ -232,7 +232,7 @@ Objectives:
     Given atomic symbols x,y, eq[x;y] = T iff x and y are equivalent atomic symbols. For example:
     \begin{itemize}
         \item eq[X;X] = T
-        \item qe[X;A] = F
+        \item eq[X;A] = F
         \item eq[X;(X $\cdot$ A)] is undefined since (X $\cdot$ A) is not an atomic symbol.
     \end{itemize}
 \end{defn}
@@ -315,5 +315,56 @@ Objectives:
         \item caddr[x] = car[cdr[cdr[x]]] - car (a) and two cdr's (dd) makes c(add)r
         \item etc\dots 
     \end{itemize}
+\end{defn}
+
+\begin{nota}
+    $[e_{1}; e_{2}; \ldots; e_{n}]$ = cons[$e_{1}$; cons[$e_{2}$; \ldots; cons[$e_{n}$; $NIL$]$\ldots$]]
+
+    This function gives the list $(e_{1},\cdots,e_{n})$ as a function of its elements.
+\end{nota}
+
+\begin{defn}[\idx{append[x;y]}]
+    append[x;y] = [null[x] $\rightarrow$ y; T $\rightarrow$ cons[car[x]; append[cdr[x]; y]]]
+
+    This appends y to the end of the list x. For example:
+    \begin{itemize}
+        \item append[(A,B); (C,D,E)] = [null[(A,B)] $\rightarrow$ (C,D,E); T $\rightarrow$ cons[car[(A,B)]; append[cdr[(A,B)]; (C,D,E)]]]
+        \item cons[car[(A,B)]; append[cdr[(A,B)]; (C,D,E)]]
+        \item cons[A; append[B; (C,D,E)]]
+        \item append[B; (C,D,E)] = [null[B] $\rightarrow$ (C,D,E); T $\rightarrow$ cons[car[B]; append[cdr[B]; (C,D,E)]]]
+        \item cons[car[(B,NIL)]; append[cdr[(B,NIL)]; (C,D,E)]]
+        \item cons[B; append[NIL; (C,D,E)]]
+        \item append[NIL; (C,D,E)] = (C,D,E)
+        \item  append[B; (C,D,E)] = cons[B; append[NIL; (C,D,E)]] = cons[B; (C,D,E)] = (B,C,D,E) 
+        \item append[(A,B); (C,D,E)] = cons[A; append[B; (C,D,E)]] = cons[A; (B,C,D,E)] = (A,B,C,D,E)
+    \end{itemize}
+\end{defn}
+
+\begin{defn}[\idx{among[x;y]}]
+    among[x;y] = $\neg$null[y] $\land$ (equal[x; car[y]] $\lor$ among[x; cdr[y]])
+
+    This is true iff x occurs in the list y.
+\end{defn}
+
+\begin{defn}[\idx{pair[x;y]}]
+    pair[x;y] = [(null[x] $\land$ null[y]) $\rightarrow$ NIL; $\neg$atom[x] $\land$ $\neg$atom[y] $\rightarrow$ cons[list[car[x]; car[y]]; pair[cdr[x]; cdr[y]]]]
+
+    This function gives the list of pairs of corresponding elements of the lists x and y. For example: pair[(A,B,C); (X,(Y,Z),U)] = ((A,X),(B,(Y,Z)),(C,U)).
+\end{defn}
+
+\begin{defn}[\idx{assoc[x;y]}]
+    assoc[x;y] = [eq[caar[y]; x] $\rightarrow$ cadar[y]; T $\rightarrow$ assoc[x; cdr[y]]]
+
+    If y is a list of the form $((u_{1},v_{1}),\cdots,(u_{n},v_{n}))$ and x is one of the u's, then assoc[x;y] is the corresponding v. For example: assoc[X; ((W,(A,B)),(X,(C,D)),(Y,(E,F)))] = (C,D).
+\end{defn}
+
+\begin{defn}[\idx{sub2[x;y]}, \idx{sublis[x;y]}]
+    sub2[x;y] = [null[x] $\rightarrow$ y; eq[caar[x]; y] $\rightarrow$ cadar[x]; T $\rightarrow$ sub2[cdr[x]; y]]
+
+    sub2[x;y] is an auxiliary function for sublis[x;y].
+
+    sublis[x;y] = [atom[y] $\rightarrow$ sub2[x;y]; T $\rightarrow$ cons[sublis[x; car[y]]; sublis[x; cdr[y]]]]
+
+    x is assumed to have the form of a list of pairs $(u_{1},v_{1}),\cdots,(u_{n},v_{n})$ where the u's are atomic and y may be any S-expression. The value of sublis[x;y] is the result of substituting each v for the corresponding u in y.
 \end{defn}
 
