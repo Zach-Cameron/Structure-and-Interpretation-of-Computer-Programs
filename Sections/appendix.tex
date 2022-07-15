@@ -447,3 +447,28 @@ Rules for translating M-expressions into S-expressions:
 \end{note}
 
 \subsubsection{The Universal S-Function \texttt{apply}}
+
+\begin{defn}[\idx{apply[$f$; $args$]}]
+    apply[$f$; $args$] = eval[cons[$f$; appq[$args$]]; NIL]
+
+    Given S-expression $f$ representing S-function $f'$, and given $args$ is a list of arguments of the form $(arg_{1},\ldots,arg_{n})$ where $arg_{1},\ldots,arg_{n}$ are arbitrary S-expressions: apply[$f$; $args$] is defined to be equivalent to $f'[arg_{1},\ldots,arg_{n}]$.
+\end{defn}
+
+\begin{exmp}
+    The S-function:
+    \begin{center}
+        $\lambda$[[x; y]; cons[car[x]; y]][(A,B); (C,D)]
+    \end{center}
+    is equivalent to:
+    \begin{center}
+        apply[(LAMBDA, (X,Y), (CONS, (CAR, X), Y)); ((A,B), (C,D))] = (A,C,D)
+    \end{center}
+\end{exmp}
+
+\begin{defn}[\idx{appq[m]}]
+    appq[m] = [null[m] $\rightarrow$ NIL; T $\rightarrow$ cons[list[QUOTE; car[m]]; appq[cdr[m]]]]
+\end{defn}
+
+\begin{defn}[\idx{eval[e; a]}]
+    
+\end{defn}
