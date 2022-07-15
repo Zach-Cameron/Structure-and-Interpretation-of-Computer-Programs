@@ -218,10 +218,6 @@ Objectives:
     \end{itemize}
 \end{nota}
 
-\begin{exmp}
-    By the above notation, $(m_{1}, m_{2} \cdot x)$ is equivalent to $(m_{1} \cdot (m_{2} \cdot x))$. Let $k = m_{2} \cdot x$. Then $(m_{1}, m_{2} \cdot x) = (m_{1}, k)$ which by notation is equivalent to $(m_{1} \cdot (k \cdot NIL)) = (m_{1} \cdot ((m_{2} \cdot x) \cdot NIL))$. It follows that $(m_{1} \cdot (m_{2} \cdot x)) = (m_{1} \cdot ((m_{2} \cdot x) \cdot NIL))$. So $(m_{2} \cdot x) = ((m_{2} \cdot x) \cdot NIL)$ which agrees with notation. Note then that $((m_{2} \cdot x) \cdot NIL) = (((m_{2} \cdot x) \cdot NIL) \cdot NIL) = ((((m_{2} \cdot x) \cdot NIL) \cdot NIL) \cdot NIL) = \ldots$ 
-\end{exmp}
-
 \subsubsection{Functions of S-expressions and the Expressions That Represent Them}
 
 \begin{defn}[\idx{function of S-expressions}, \idx{M-expression}]
@@ -424,3 +420,30 @@ Objectives:
 
 \subsubsection{Representation of S-Functions by S-Expressions}
 
+Rules for translating M-expressions into S-expressions:
+\begin{enumerate}
+    \item If $\mathcal{E}$ is an S-expression, then $\mathcal{E}^{*}$ is (QUOTE, $\mathcal{E}$).
+    \item Variables and function names that were represented by strings of lowercase letters are translated to the corresponding strings of the corresponding uppercase letters. E.g.: $\text{car}^{*}$ is CAR and $\text{subst}^{*}$ is SUBST.
+    \item A form $f[e_{1};\ldots;e_{n}]$ is translated to $(f^{*}, e_{1}^{*},\ldots,e_{n}^{*})$. E.g.: $\text{cons[car[x];cdr[x]]}^{*}$ is (CONS, (CAR, X), (CDR, X)).
+    \item ${[p_{1} \rightarrow e_{1}; \ldots; p_{n} \rightarrow e_{n}]}^{*}$ is (COND, $(p_{1}^{*}, e_{1}^{*})$, $\cdots$, $(p_{n}^{*} \cdot e_{n}^{*})$).
+    \item ${\lambda[[x_{1}; \ldots; x_{n}]; \mathcal{E}]}^{*}$ is (LAMBDA, ($x_{1}^{*}$, $\cdots$, $x_{n}^{*}$), $\mathcal{E}^{*}$).
+    \item ${label[a;\mathcal{E}]}^{*}$ is (LABEL, $a^{*}$, $\mathcal{E}^{*}$).
+\end{enumerate}
+
+\begin{exmp}
+    The M-expression:
+    \begin{center}
+        label[subst; $\lambda$[[x; y; z]; [atom[z] $\rightarrow$ [eq[y; z] $\rightarrow$ x; T $\rightarrow$ z]; T $\rightarrow$ cons[subst[x; y; car[z]]; subst[x; y; cdr[z]]]]]]   
+    \end{center}
+
+    has the S-expression:
+    \begin{center}
+        (LABEL, SUBST, (LAMBDA, (X, Y, Z), (COND, ((ATOM, Z), (COND, ((EQ, Y, Z), X), ((QUOTE, T), Z))), ((QUOTE, T), (CONS, (SUBST, X, Y, (CAR, Z)), (SUBST, X, Y, (CDR, Z)))))))
+    \end{center}
+\end{exmp}
+
+\begin{note}
+    What this function does: Unfurl the tree of z. For every leaf, if the leaf is equivalent to y then replace the leaf with x, otherwise leave the leaf alone. Return the resulting S-expression.
+\end{note}
+
+\subsubsection{The Universal S-Function \texttt{apply}}
