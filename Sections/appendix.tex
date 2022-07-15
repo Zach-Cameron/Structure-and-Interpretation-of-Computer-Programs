@@ -372,7 +372,7 @@ Objectives:
 \end{defn}
 
 \begin{exmp}
-    sublis[((X, (A, B)), (Y, (B, C))), (A, X $\cdot$ Y)] = (A, (A, B) $\cdot$ (B, C))
+    sublis[((X, (A, B)), (Y, (B, C))), (A, X $\cdot$ Y)] = (A, (A, B), B, C)
 
     Expand the first argument ((X, (A, B)), (Y, (B, C))) into dot notation:
     \begin{itemize}
@@ -380,16 +380,26 @@ Objectives:
         \item (B, C) = (B $\cdot$ (C $\cdot$ NIL))
         \item (X, (A, B)) = (X $\cdot$ ((A, B) $\cdot$ NIL)) = (X $\cdot$ ((A $\cdot$ (B $\cdot$ NIL)) $\cdot$ NIL))
         \item (Y, (B, C)) = (Y $\cdot$ ((B, C) $\cdot$ NIL)) = (Y $\cdot$ ((B $\cdot$ (C $\cdot$ NIL)) $\cdot$ NIL))
-        \item ((X, (A, B)), (Y, (B, C))) = ((X $\cdot$ ((A $\cdot$ (B $\cdot$ NIL)) $\cdot$ NIL)) $\cdot$ ((Y $\cdot$ ((B $\cdot$ (C $\cdot$ NIL)) $\cdot$ NIL)) $\cdot$ NIL))
+        \item x = ((X, (A, B)), (Y, (B, C))) = ((X $\cdot$ ((A $\cdot$ (B $\cdot$ NIL)) $\cdot$ NIL)) $\cdot$ ((Y $\cdot$ ((B $\cdot$ (C $\cdot$ NIL)) $\cdot$ NIL)) $\cdot$ NIL))
     \end{itemize}
     
     The second argument (A, X $\cdot$ Y) expands into dot notation as:
     \begin{itemize}
-        \item (A, X $\cdot$ Y) = (A $\cdot$ ((X $\cdot$ Y) $\cdot$ NIL))
+        \item y = (A, X $\cdot$ Y) = (A $\cdot$ (X $\cdot$ Y))
     \end{itemize}
 
-    
+    The function sub2 isn't called until y is atomic. Until then, sublis is called on the left and right parts of y. This recursion unfurls the tree of y until sublis reaches each of the leaves of the tree of y. The leaves are atomic symbols, so they are passed on to sub2. sub2 then compares the leaves with the $u_{i}$'s of x and returns $v_{i}$ if there's a match or otherwise returns the leaf back. A new S-expression is constructed with the structure of y and the appropriate substitutions. sublis[x;y] returns this S-expression.
 
-    
+    From y = (A $\cdot$ (X $\cdot$ Y)):
+    \begin{itemize}
+        \item sub2[x;A] = A
+        \item sub2[x;X] = (A, B)
+        \item sub2[x;Y] = (B, C)
+    \end{itemize}
 
+    Therefore:
+    \begin{itemize}
+        \item sublis[x;y] = (A $\cdot$ ((A, B) $\cdot$ (B, C))) = (A $\cdot$ ((A, B) $\cdot$ (B $\cdot$ (C $\cdot$ NIL)))) = (A, (A,B), B, C)
+    \end{itemize}
 \end{exmp}
+
