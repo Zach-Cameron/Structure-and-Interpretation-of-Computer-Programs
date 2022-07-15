@@ -34,9 +34,13 @@ In this article:
 
 \subsection{Functions and Function Definitions}
 
+\subsubsection{Partial Functions}
+
 \begin{defn}[\idx{partial function}]
     A function that is defined only on part of its domain.
 \end{defn}
+
+\subsubsection{Propositional Expressions and Predicates}
 
 \begin{defn}[\idx{propositional expression}]
     A \textbi{propositional expression} is an expression whose possible values are $T$ (for truth) and $F$ (for falsity).
@@ -45,6 +49,8 @@ In this article:
 \begin{defn}[\idx{predicate}]
     A function whose range consists of the truth values $T$ and $F$.
 \end{defn}
+
+\subsubsection{Conditional Expressions}
 
 \begin{defn}[\idx{conditional expression}]
     A device for expressing the dependence of quantities on propositional quantities, denoted: \[(p_{1} \rightarrow e_{1}, \cdots, p_{n} \rightarrow e_{n})\] where the $p$'s are propositional expressions and the $e$'s are expression of any kind, read ``If $p_{1}$ then $e_{1}$, otherwise if $p_{2}$ then $e_{2}$, ... otherwise if $p_{n}$ then $e_{n}$'' or ``$p_{1}$ yields $e_{1}$, ..., $p_{n}$ yields $e_{n}$.''
@@ -96,6 +102,8 @@ In this article:
     \end{itemize}
 \end{exmp}
 
+\subsubsection{Recursive Function Definitions}
+
 \begin{exmp}
     Recursive applications:
     \begin{itemize}
@@ -114,6 +122,8 @@ In this article:
         \item $p \supset q = (p \rightarrow q,\ T \rightarrow T)$
     \end{itemize}
 \end{exmp}
+
+\subsubsection{Functions and Forms}
 
 \begin{defn}[\idx{form}]
     The expression $y^{2}+x$ is an example of a form.
@@ -147,6 +157,8 @@ In this article:
     A difficulty which arises in combining functions described by $\lambda$-expressions, or by any other notation involving variables, because different bound variables may be represented by the same symbol.
 \end{defn}
 
+\subsubsection{Expressions for Recursive Functions}
+
 \begin{note}
     The $\lambda$-notation is inadequate for naming functions defined recursively. For example, \[\text{sqrt}(a,x,\epsilon) = (\left|x^{2}-a\right| < \epsilon \rightarrow x,\ T \rightarrow \text{sqrt}(a,\frac{1}{2}(x+\frac{a}{x}),\epsilon))\] converts into $\lambda$-notation as \[\text{sqrt} = \lambda((a,x,\epsilon),\ (\left|x^{2}-a\right| < \epsilon \rightarrow x,\ T \rightarrow \text{sqrt}(a,\frac{1}{2}(x+\frac{a}{x}),\epsilon)))\] However, the right-hand side cannot serve as an expression for the function because there would be nothing to indicate that the reference to \texttt{sqrt} within the expression stood for the expression as a whole.
 \end{note}
@@ -161,6 +173,8 @@ In this article:
 \end{exmp}
 
 \subsection{Recursive Functions of Symbolic Expressions}
+
+\subsubsection{A Class of Symbolic Expressions}
 
 Objectives:
 \begin{enumerate}
@@ -208,6 +222,8 @@ Objectives:
     By the above notation, $(m_{1}, m_{2} \cdot x)$ is equivalent to $(m_{1} \cdot (m_{2} \cdot x))$. Let $k = m_{2} \cdot x$. Then $(m_{1}, m_{2} \cdot x) = (m_{1}, k)$ which by notation is equivalent to $(m_{1} \cdot (k \cdot NIL)) = (m_{1} \cdot ((m_{2} \cdot x) \cdot NIL))$. It follows that $(m_{1} \cdot (m_{2} \cdot x)) = (m_{1} \cdot ((m_{2} \cdot x) \cdot NIL))$. So $(m_{2} \cdot x) = ((m_{2} \cdot x) \cdot NIL)$ which agrees with notation. Note then that $((m_{2} \cdot x) \cdot NIL) = (((m_{2} \cdot x) \cdot NIL) \cdot NIL) = ((((m_{2} \cdot x) \cdot NIL) \cdot NIL) \cdot NIL) = \ldots$ 
 \end{exmp}
 
+\subsubsection{Functions of S-expressions and the Expressions That Represent Them}
+
 \begin{defn}[\idx{function of S-expressions}, \idx{M-expression}]
     Functions, written in conventional functional notation, taking S-expressions as argument. The expression for a function of S-expressions is called an \textbi{M-expression}; M for `meta'.
 \end{defn}
@@ -221,6 +237,7 @@ Objectives:
     \end{itemize}
 \end{exmp}
 
+\subsubsection{The Elementary S-functions and Predicates}
 
 \begin{defn}[\idx{atom[X]}]
     atom[X] has the value of T or F according to whether X is an atomic symbol. For example:
@@ -272,6 +289,8 @@ Objectives:
         \item cons[car[(X $\cdot$ A)]; cdr[(X $\cdot$ A)]] = cons[X;A] = (X $\cdot$ A)
     \end{itemize}
 \end{rmrk}
+
+\subsubsection{Recursive S-functions}
 
 \begin{defn}[\idx{ff[X]}]
     ff[X] is equivalent to the first atomic symbol of the S-expression X. For example:
@@ -402,4 +421,6 @@ Objectives:
         \item sublis[x;y] = (A $\cdot$ ((A, B) $\cdot$ (B, C))) = (A $\cdot$ ((A, B) $\cdot$ (B $\cdot$ (C $\cdot$ NIL)))) = (A, (A,B), B, C)
     \end{itemize}
 \end{exmp}
+
+\subsubsection{Representation of S-Functions by S-Expressions}
 
