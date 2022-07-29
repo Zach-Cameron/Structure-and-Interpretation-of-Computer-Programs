@@ -95,8 +95,110 @@ LISP:
 
         The $label$ notation makes explicit what symbol in $\mathcal{E}$ should refer to the statement itself. Thus we can write \[label(\text{sqrt},\ \lambda((a,x,\epsilon),\ (|x^{2}-a|<\epsilon \rightarrow x,\ T \rightarrow \text{sqrt}(a, \frac{1}{2}(x+\frac{a}{x}), \epsilon))))\] as a name for our sqrt function.
     \end{exmp}
-    
 \end{defn}
+
+\begin{defn}[\idx{atomic symbol}]
+    A string starting with one of $\{A,B,\ldots,Z\}$ and continuing with zero or more of $\{A,B,\ldots,Z,0,1,\ldots,9\}$.
+\end{defn}
+
+\begin{defn}[\idx{S-expression}]
+    \begin{enumerate}
+        \item Atomic symbols are S-expressions.
+        \item If $e_{1}$ and $e_{2}$ are S-expressions, so is $(e_{1} \cdot e_{2})$.
+    \end{enumerate}
+
+    \begin{note}
+        `S' stands for `symbolic'.
+    \end{note}
+\end{defn}
+
+
+
+\begin{nota}
+    The list \[(x_{1}, x_{2}, \ldots, x_{n})\] is represented by the S-expression \[(x_{1} \cdot (x_{2} \cdot (\ldots \cdot (x_{n} \cdot NIL)\ldots)))\]
+
+    \begin{exmp}
+        $((A,B),C,D\cdot E) = ((A \cdot (B \cdot NIL)) \cdot (C \cdot ((D \cdot E) \cdot NIL)))$
+    \end{exmp}
+\end{nota}
+
+\begin{defn}[\idx{M-expression}]
+    An expression representing a function of S-expressions. 
+    \begin{nota}
+        In order to clearly distinguish the expressions representing functions from S-expressions, we shall use sequences of lower-case letters for function names and variables ranging over the set of S-expressions. We also use brackets and semicolons, instead of parentheses and commas, for denoting the application of functions to their arguments.
+    \end{nota}
+    \begin{exmp}
+        \begin{itemize}
+            \item $car[x]$
+            \item $car[cons[(A \cdot B);x]]$
+        \end{itemize}
+    \end{exmp}
+    \begin{note}
+        `M' stands for `meta'.
+    \end{note}    
+\end{defn}
+
+\begin{defn}[\idx{$atom[x]$}]
+    $atom[x]$ has the value of True or False according to whether $x$ is an
+    atomic symbol.
+    \begin{exmp}
+        \begin{itemize}
+            \item $atom[X] = T$
+            \item $atom[(X \cdot A)] = F$
+        \end{itemize}
+    \end{exmp}
+\end{defn}
+
+\begin{defn}[\idx{$eq[x;y]$}]
+    $eq[x;y]$ is defined if and only if both $x$ and $y$ are atomic. $eq[x;y] = T$ if $x$ and $y$ are the same symbol, and $eq[x;y] = F$ otherwise.
+    \begin{exmp}
+        \begin{itemize}
+            \item $eq[X;X] = T$
+            \item $eq[X;A] = F$
+            \item $eq[X;(X \cdot A)] $ is undefined.
+        \end{itemize}
+    \end{exmp}
+\end{defn}
+
+\begin{defn}[\idx{$car[x]$}]
+    $car[x]$ is defined if and only if $x$ is not atomic. $car[(e_{1} \cdot e_{2})] = e_{1}$.
+    \begin{exmp}
+        \begin{itemize}
+            \item $car[(X \cdot A)] = X$
+            \item $car[((X \cdot A) \cdot Y)] = (X \cdot A)$
+            \item $car[X]$ is undefined.
+        \end{itemize}
+    \end{exmp}
+\end{defn}
+
+\begin{defn}[\idx{$cdr[x]$}]
+    $cdr[x]$ is also defined when $x$ is not atomic. $cdr[(e_{1} \cdot e_{2})] = e_{2}$.
+    \begin{exmp}
+        \begin{itemize}
+            \item $cdr[(X \cdot A)] = A$
+            \item $cdr[((X \cdot A) \cdot Y)] = Y$
+            \item $cdr[X]$ is undefined.
+        \end{itemize}
+    \end{exmp}
+\end{defn}
+
+\begin{defn}[\idx{$cons[x;y]$}]
+    $cons[x;y]$ is defined for any $x$ and $y$. $cons[e_{1}; e_{2}] = (e_{1} \cdot e_{2})$.
+    \begin{exmp}
+        \begin{itemize}
+            \item $cons[X;A] = (X \cdot A)$
+            \item $cons[(X \cdot A); Y] = ((X \cdot A) \cdot Y)$
+        \end{itemize}
+    \end{exmp}
+\end{defn}
+
+\begin{exmp}
+    \begin{itemize}
+        \item $car[cons[x;y]] = x$
+        \item $cdr[cons[x;y]] = y$
+        \item $cons[car[x];cdr[x]] = x$ for non-atomic $x$
+    \end{itemize}
+\end{exmp}
 
 
 
