@@ -188,17 +188,12 @@ LISP:
         \begin{itemize}
             \item $cons[X;A] = (X \cdot A)$
             \item $cons[(X \cdot A); Y] = ((X \cdot A) \cdot Y)$
+            \item $car[cons[x;y]] = x$
+            \item $cdr[cons[x;y]] = y$
+            \item $cons[car[x];cdr[x]] = x$ for non-atomic $x$
         \end{itemize}
     \end{exmp}
 \end{defn}
-
-\begin{exmp}
-    \begin{itemize}
-        \item $car[cons[x;y]] = x$
-        \item $cdr[cons[x;y]] = y$
-        \item $cons[car[x];cdr[x]] = x$ for non-atomic $x$
-    \end{itemize}
-\end{exmp}
 
 \begin{defn}[\idx{\texttt{ff[x]}}]
 \begin{verbatim}ff[x] = [
