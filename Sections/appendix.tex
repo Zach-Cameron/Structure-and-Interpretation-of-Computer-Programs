@@ -200,7 +200,121 @@ LISP:
     \end{itemize}
 \end{exmp}
 
+\begin{defn}[\idx{\texttt{ff[x]}}]
+\begin{verbatim}ff[x] = [
+    atom[x] -> x;
+    T -> ff[car[x]]
+]\end{verbatim}
+    Returns the first atomic symbol of $x$.
+\begin{exmp}
+\begin{verbatim}ff[((A.B).C)] ->
+    ff[(A.B)] ->
+    ff[A] ->
+    atom[A] ->
+    A\end{verbatim}
+\end{exmp}
+\end{defn}
+ 
+\begin{defn}[\idx{\texttt{subst[x;y;z]}}]
+\begin{verbatim}subst[x;y;z] = [
+    atom[z] -> [
+        eq[z;y] -> x;
+        T -> z
+    ];
+    T -> cons[
+        subst[x;y;car[z]];
+        subst[x;y;cdr[z]]
+    ]
+]\end{verbatim}
+    Returns a copy of the S-expression $z$ such that every occurrence of $y$ in $z$ has been replaced with $x$.
+    \begin{exmp}
+        $subst[(X \cdot A);\ B;\ ((A \cdot B) \cdot C)] = ((A \cdot (X \cdot A)) \cdot C)$
+    \end{exmp}
+\end{defn}
 
+\begin{defn}[\idx{\texttt{equal[x;y]}}]
+\begin{verbatim}equal[x;y] = [
+    [atom[x] AND atom[y] AND eq[x;y]] OR
+    [-atom[x] AND -atom[y] AND equal[car[x];car[y]] AND equal[cdr[x];cdr[y]]]
+]\end{verbatim}
+    Returns True or False according to whether $x$ and $y$ are equivalent.
+\end{defn}
+
+\begin{defn}[\idx{\texttt{null[x]}}]
+\begin{verbatim}null[x] = [
+    atom[x] AND eq[x;NIL]
+]\end{verbatim}
+    Returns True or False according to whether $x$ is the atomic symbol $NIL$. 
+\end{defn}
+
+\begin{nota}
+    When navigating through nested S-expressions, an expression such as \[car[cdr[cdr[car[cdr[x]]]]]\] could occur. As a shorthand, this example expression can be written as \[caddadr[x]\]
+\end{nota}
+
+\begin{nota}
+   Another useful abbreviation is to write \[list[e_{1};e_{2};\ldots;e_{n}]\] for \[cons[e_{1};cons[e_{2};cons[\ldots;cons[e_{n};NIL]]]]\]
+\end{nota}
+
+\begin{defn}[\idx{\texttt{append[x;y]}}]
+\begin{verbatim}append[x;y] = [
+    null[x] -> y;
+    T -> cons[car[x];append[cdr[x];y]]
+]\end{verbatim}
+    Given lists $x$ and $y$, return a copy of $x$ such that the $NIL$ that marks the end of the list $x$ is substituted with the list $y$, which effectively appends $y$ onto $x$.
+\end{defn}
+
+\begin{defn}[\idx{\texttt{among[x;y]}}]
+\begin{verbatim}among[x;y] = [
+    -null[y] AND [
+        equal[x;car[y]] OR among[x;cdr[y]]
+    ]
+]\end{verbatim}
+    Returns True or False according to whether $x$ is among the members of the list $y$.
+\end{defn}
+
+\begin{defn}[\idx{\texttt{pair[x;y]}}]
+\begin{verbatim}pair[x;y] = [
+    null[x] AND null[y] -> NIL;
+    -atom[x] AND -atom[y] -> cons[
+        list[car[x];car[y]];
+        pair[cdr[x];cdr[y]]
+    ]
+]\end{verbatim}
+    Returns a list whose $i$th member is a list $(X_{i}, Y_{i})$ where $X_{i}$ is the $i$th member of $x$ and $Y_{i}$ is the $i$th member of $y$.
+    \begin{exmp}
+        \begin{itemize}
+            \item $pair[(A,B,C);(X,(Y,Z),U)] = ((A,X),(B,(Y,Z)),(C,U))$
+            \item $pair[(A,B);(C,D,E)]$ is undefined. Eventually $x=NIL$ and $y=(E \cdot NIL)$. Since $y \neq NIL$ and $x$ is atomic, the conditions of $pair[(A,B);(C,D,E)]$ are all false.
+        \end{itemize}
+    \end{exmp}
+\end{defn}
+
+\begin{defn}[\idx{\texttt{assoc[x;y]}}]
+\begin{verbatim}assoc[x;y] = [
+    eq[caar[y];x] -> cadar[y];
+    T -> assoc[x;cdr[y]]
+]\end{verbatim}
+    Given that $y$ is a list of key-value pairs $(k_{i},v_{i})$, if $x$ matches one of the keys $k_{i}$ then return the corresponding value $v_{i}$.
+    \begin{exmp}
+        $assoc[X;((W,(A,B)),(X,(C,D)),(Y,(E,F)))] = (C,D)$
+    \end{exmp}
+\end{defn}
+
+\begin{defn}[\idx{\texttt{sublis[x;y]}},\ \idx{\texttt{sub2[x;z]}}]
+\begin{verbatim}sublis[x;y] = [
+    atom[y] -> sub2[x;y];
+    T -> cons[
+        sublis[x;car[y]];
+        sublis[x;cdr[y]]
+    ]
+]\end{verbatim}
+\begin{verbatim}sub2[x;z] = [
+    null[x] -> z;
+    eq[caar[x];z] -> cadar[x];
+    T -> sub2[cdr[x];z]
+]\end{verbatim}
+    Given $x$ is a list of key-value pairs $(k_{i},v_{i})$ where each $k_{i}$ is atomic, $sublis[x;y]$ returns a copy of $y$ such that for every atomic symbol $z$ in $y$, if $z$ is a key $k_{i}$ of $x$ then substitute $z$ for the corresponding value $v_{i}$.
+\end{defn}
 
 \subsection{LISP 1.5 Programmer's Manual}
 
