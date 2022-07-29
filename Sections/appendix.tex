@@ -309,7 +309,12 @@ LISP:
     T -> sub2[cdr[x];z]
 ]\end{verbatim}
     Given $x$ is a list of key-value pairs $(k_{i},v_{i})$ where each $k_{i}$ is atomic, $sublis[x;y]$ returns a copy of $y$ such that for every atomic symbol $z$ in $y$, if $z$ is a key $k_{i}$ of $x$ then substitute $z$ for the corresponding value $v_{i}$.
+    \begin{exmp}
+        $sublis[((X,(A,B)),(Y,(B,C)));(A,X \cdot Y)] = (A,(A,B) \cdot (B,C))$
+    \end{exmp}
 \end{defn}
+
+
 
 \subsection{LISP 1.5 Programmer's Manual}
 
